@@ -569,7 +569,7 @@
       from { transform: translate3d(0, 0, 0); }
       to { transform: translate3d(-50%, 0, 0); }
     }
-    /* Badge Logo Simpul Smandum: Sejajar Horizontal, SMANDUM Diperkecil, Hijau & Biru Laut */
+    /* Badge Logo Simpul Smandum: SIMPUL di Atas (Hijau), SMANDUM di Bawah (Biru Laut), Sama Panjang */
     .login-top-simpul-badge {
       position: absolute;
       top: 14px;
@@ -578,41 +578,50 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: rgba(15, 23, 42, 0.78);
+      background: rgba(15, 23, 42, 0.82);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      padding: 4px 10px 4px 6px;
-      border-radius: 20px;
+      padding: 5px 9px 5px 6px;
+      border-radius: 12px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-      white-space: nowrap;
+      user-select: none;
     }
     .login-top-simpul-badge img {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       object-fit: contain;
       background: #ffffff;
       border-radius: 50%;
       padding: 2px;
       flex-shrink: 0;
     }
-    .login-top-simpul-text-row {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 4px;
-      line-height: 1;
+    .login-top-simpul-text-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 58px; /* Lebar presisi agar SIMPUL dan SMANDUM sama panjang */
+      gap: 1px;
     }
-    .login-top-simpul-text-row .txt-simpul {
-      font-size: 11.5px;
+    .login-top-simpul-text-col .txt-simpul {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 11px;
       font-weight: 900;
-      color: #10b981; /* Tulisan SIMPUL warna hijau */
-      letter-spacing: 0.5px;
+      color: #10b981; /* Tulisan SIMPUL warna hijau di atas */
+      line-height: 1.1;
+      letter-spacing: 0;
     }
-    .login-top-simpul-text-row .txt-smandum {
-      font-size: 9px; /* Tulisan SMANDUM diperkecil agar terlihat rapi di Android */
+    .login-top-simpul-text-col .txt-smandum {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 8.5px;
       font-weight: 800;
-      color: #38bdf8; /* Tulisan SMANDUM warna biru laut */
-      letter-spacing: 0.6px;
+      color: #38bdf8; /* Tulisan SMANDUM warna biru laut di bawah */
+      line-height: 1.1;
+      letter-spacing: 0;
       text-transform: uppercase;
       opacity: 0.95;
     }
@@ -2142,12 +2151,16 @@
         <div id="lpHeroBackdrop" class="lp-hero-backdrop" aria-hidden="true"></div>
         <div class="login-hero-overlay" aria-hidden="true"></div>
 
-        <!-- LOGO SIMPUL SMANDUM DI POJOK KIRI ATAS (SIMPUL & SMANDUM SEJAJAR DENGAN SMANDUM DIPERKECIL) -->
+        <!-- LOGO SIMPUL SMANDUM DI POJOK KIRI ATAS: SIMPUL DI ATAS (HIJAU), SMANDUM DI BAWAH (BIRU LAUT), SAMA PANJANG -->
         <div class="login-top-simpul-badge">
           <img src="simpul_symbol_clean.png" onerror="this.src='../simpul_symbol_clean.png'" alt="Logo Simpul Smandum">
-          <div class="login-top-simpul-text-row">
-            <span class="txt-simpul">SIMPUL</span>
-            <span class="txt-smandum">SMANDUM</span>
+          <div class="login-top-simpul-text-col">
+            <div class="txt-simpul">
+              <span>S</span><span>I</span><span>M</span><span>P</span><span>U</span><span>L</span>
+            </div>
+            <div class="txt-smandum">
+              <span>S</span><span>M</span><span>A</span><span>N</span><span>D</span><span>U</span><span>M</span>
+            </div>
           </div>
         </div>
 
