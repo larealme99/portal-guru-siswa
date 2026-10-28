@@ -569,7 +569,7 @@
       from { transform: translate3d(0, 0, 0); }
       to { transform: translate3d(-50%, 0, 0); }
     }
-    /* Badge Logo Simpul Smandum: Kompak, Tulisan Tersusun, Hijau & Biru Laut */
+    /* Badge Logo Simpul Smandum: Sejajar Horizontal, SMANDUM Diperkecil, Hijau & Biru Laut */
     .login-top-simpul-badge {
       position: absolute;
       top: 14px;
@@ -577,42 +577,44 @@
       z-index: 10;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.75);
+      gap: 7px;
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.22);
       padding: 4px 10px 4px 6px;
-      border-radius: 12px;
+      border-radius: 20px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-      max-width: 140px;
+      white-space: nowrap;
     }
     .login-top-simpul-badge img {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
       background: #ffffff;
-      border-radius: 6px;
+      border-radius: 50%;
       padding: 2px;
       flex-shrink: 0;
     }
-    .login-top-simpul-text-col {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-      text-align: left;
+    .login-top-simpul-text-row {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      line-height: 1;
     }
-    .login-top-simpul-text-col .txt-simpul {
-      font-size: 11px;
+    .login-top-simpul-text-row .txt-simpul {
+      font-size: 11.5px;
       font-weight: 900;
       color: #10b981; /* Tulisan SIMPUL warna hijau */
-      letter-spacing: 0.8px;
+      letter-spacing: 0.5px;
     }
-    .login-top-simpul-text-col .txt-smandum {
-      font-size: 9.5px;
-      font-weight: 900;
+    .login-top-simpul-text-row .txt-smandum {
+      font-size: 9px; /* Tulisan SMANDUM diperkecil agar terlihat rapi di Android */
+      font-weight: 800;
       color: #38bdf8; /* Tulisan SMANDUM warna biru laut */
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      opacity: 0.95;
     }
     .login-brand {
       position: relative;
@@ -1523,48 +1525,83 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 440px;
-      height: 70px;
+      height: 72px;
       background: #ffffff;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 24px 24px 0 0; /* Banner bawah tumpul sudut */
       display: flex;
       justify-content: space-around;
       align-items: center;
-      padding: 0 8px;
+      padding: 0 10px;
       z-index: 95;
-      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.08);
+      box-sizing: border-box;
     }
     .nav-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      gap: 2px;
       background: none;
       border: none;
       color: #64748b;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
-      width: 58px;
-      transition: all 0.2s;
+      flex: 1;
+      max-width: 68px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
     }
     .nav-item.active {
       color: #0284c7;
     }
     .nav-bubble {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      transition: all 0.2s;
+      font-size: 22px; /* Ikon menu diperbesar */
+      transition: all 0.22s ease;
     }
     .nav-item.active .nav-bubble {
-      background: #0284c7;
+      background: #e0f2fe;
+      transform: translateY(-2px);
+    }
+
+    /* CENTER FAB (ACTION FOCUSED, BOLD & CREATIVE) */
+    .nav-item.nav-item-fab {
+      margin-top: -18px;
+      z-index: 99;
+    }
+    .nav-fab-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
       color: #ffffff;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px; /* FAB icon besar & bold */
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.45);
+      border: 3.5px solid #ffffff;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .nav-item.nav-item-fab span {
+      font-size: 10px;
+      font-weight: 800;
+      color: #0284c7;
+      margin-top: 1px;
+    }
+    .nav-item.nav-item-fab.active .nav-fab-circle {
+      background: linear-gradient(135deg, #0369a1 0%, #1d4ed8 100%);
+      transform: scale(1.08);
+      box-shadow: 0 10px 25px rgba(2, 132, 199, 0.6);
+      border-color: #f0f9ff;
     }
 
     /* ============================================================ */
@@ -2105,10 +2142,10 @@
         <div id="lpHeroBackdrop" class="lp-hero-backdrop" aria-hidden="true"></div>
         <div class="login-hero-overlay" aria-hidden="true"></div>
 
-        <!-- LOGO SIMPUL SMANDUM DI POJOK KIRI ATAS (SIMPUL HIJAU & SMANDUM BIRU LAUT TERSUSUN) -->
+        <!-- LOGO SIMPUL SMANDUM DI POJOK KIRI ATAS (SIMPUL & SMANDUM SEJAJAR DENGAN SMANDUM DIPERKECIL) -->
         <div class="login-top-simpul-badge">
           <img src="simpul_symbol_clean.png" onerror="this.src='../simpul_symbol_clean.png'" alt="Logo Simpul Smandum">
-          <div class="login-top-simpul-text-col">
+          <div class="login-top-simpul-text-row">
             <span class="txt-simpul">SIMPUL</span>
             <span class="txt-smandum">SMANDUM</span>
           </div>
@@ -2281,7 +2318,7 @@
           <div class="menu-card-title">Jadwal Mengajar</div>
         </div>
         <div class="menu-card" onclick="navTo('absen')">
-          <div class="menu-card-icon">📝</div>
+          <div class="menu-card-icon">📋</div>
           <div class="menu-card-title">Absen Siswa</div>
         </div>
         <div class="menu-card" onclick="navTo('ruang')">
@@ -2379,24 +2416,18 @@
         </div>
       </div>
 
-      <!-- Filter Tab untuk Jadwal: Jadwal Mengajar Saya vs Semua Jadwal -->
+      <!-- Filter Tab untuk Jadwal: Jadwal Mengajar Saya vs Semua Jadwal (Ringkas & Rapi di Android) -->
       <div class="filter-tab-bar" id="jadwal-filter-tabs" style="margin:0 20px 10px; display:flex;">
         <button class="filter-tab-btn active" id="tab-jadwal-mine" onclick="switchJadwalTab('mine')">
           📋 Jadwal Saya (<span id="count-jadwal-mine">0</span>)
         </button>
         <button class="filter-tab-btn" id="tab-jadwal-all" onclick="switchJadwalTab('all')">
-          🌐 Semua Jadwal (<span id="count-jadwal-all">0</span>)
+          🌐 Semua (<span id="count-jadwal-all">0</span>)
         </button>
       </div>
 
       <!-- Selector Pill Hari (Senin - Sabtu + Semua Hari) -->
       <div class="day-pill-bar" id="schedule-day-pills"></div>
-
-      <div class="schedule-date-filter" style="margin-top:0;">
-        <button onclick="changeScheduleDay(-1)" style="border:none; background:none; font-size:16px; font-weight:800; cursor:pointer;">‹</button>
-        <span id="schedule-active-day-label">Hari Ini</span>
-        <button onclick="changeScheduleDay(1)" style="border:none; background:none; font-size:16px; font-weight:800; cursor:pointer;">›</button>
-      </div>
 
       <div class="schedule-list" id="schedule-container">
         <!-- Render dinamis dari tabel Subjects -->
@@ -4056,7 +4087,7 @@
       navEl.style.display = 'flex';
 
       if (!currentUser || currentUser.role !== 'siswa') {
-        // GURU: Beranda, Kelas, Jadwal, Nilai, Profil
+        // GURU: Beranda, Kelas, Jadwal (Center FAB), Absen, Profil
         navEl.innerHTML = `
           <button class="nav-item active" id="nav-btn-home" onclick="navTo('home')">
             <div class="nav-bubble">🏠</div>
@@ -4066,12 +4097,12 @@
             <div class="nav-bubble">👥</div>
             <span>Kelas</span>
           </button>
-          <button class="nav-item" id="nav-btn-jadwal" onclick="navTo('jadwal')">
-            <div class="nav-bubble">📅</div>
+          <button class="nav-item nav-item-fab" id="nav-btn-jadwal" onclick="navTo('jadwal')">
+            <div class="nav-fab-circle">📅</div>
             <span>Jadwal</span>
           </button>
           <button class="nav-item" id="nav-btn-absen" onclick="navTo('absen')">
-            <div class="nav-bubble">📝</div>
+            <div class="nav-bubble">📋</div>
             <span>Absen</span>
           </button>
           <button class="nav-item" id="nav-btn-profil" onclick="navTo('profil')">
@@ -4080,7 +4111,7 @@
           </button>
         `;
       } else {
-        // SISWA: Beranda, Ruang Belajar, Ulangan/Ujian, Profil
+        // SISWA: Beranda, Materi, Ulangan (Center FAB), Profil
         navEl.innerHTML = `
           <button class="nav-item active" id="nav-btn-home" onclick="navTo('home')">
             <div class="nav-bubble">🏠</div>
@@ -4090,8 +4121,8 @@
             <div class="nav-bubble">🏛️</div>
             <span>Materi</span>
           </button>
-          <button class="nav-item" id="nav-btn-ujian" onclick="navTo('ujian')">
-            <div class="nav-bubble">📝</div>
+          <button class="nav-item nav-item-fab" id="nav-btn-ujian" onclick="navTo('ujian')">
+            <div class="nav-fab-circle">📝</div>
             <span>Ulangan</span>
           </button>
           <button class="nav-item" id="nav-btn-profil" onclick="navTo('profil')">
@@ -9106,11 +9137,11 @@
       const isGuru = currentUser && currentUser.role !== 'siswa';
       const myAllSubjects = isGuru ? dbSubjects.filter(s => matchesTeacherSchedule(s, currentUser)) : [];
 
-      // Update counters tab
+      // Update counters tab (Ringkas angka saja tanpa kata 'Jadwal' agar rapi di Android)
       const cntMine = document.getElementById('count-jadwal-mine');
       const cntAll = document.getElementById('count-jadwal-all');
-      if (cntMine) cntMine.innerText = `${myAllSubjects.length} Jadwal`;
-      if (cntAll) cntAll.innerText = `${dbSubjects.length} Jadwal`;
+      if (cntMine) cntMine.innerText = myAllSubjects.length;
+      if (cntAll) cntAll.innerText = dbSubjects.length;
 
       // Render Day Pill Selector bar
       const pillBar = document.getElementById('schedule-day-pills');
@@ -9227,7 +9258,7 @@
               <div class="schedule-time-box">📖</div>
               <div class="schedule-detail" style="flex:1;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
-                  <div class="schedule-time-range">📅 ${s.Hari || 'Hari'} • ${s['Jam Mulai'] || '-'} - ${s['Jam Selesai'] || '-'}</div>
+                  <div class="schedule-time-range">⏰ ${s['Jam Mulai'] || '-'} - ${s['Jam Selesai'] || '-'}${activeDayIndex === -1 ? ' • ' + (s.Hari || '') : ''}</div>
                   <div>${statusBadge}</div>
                 </div>
                 <div class="schedule-title" style="margin-top:2px;">${s['Nama Kelas']} • <span style="color:#0284c7;">${s['Nama Mapel']}</span></div>
