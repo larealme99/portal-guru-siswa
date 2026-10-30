@@ -443,17 +443,45 @@
     }
 
     /* JENDELA MENGAMBANG PEMBERITAHUAN & KONFIRMASI (FLOATING IN-APP DIALOG) */
+    #app-floating-dialog-overlay {
+      position: fixed !important;
+      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100% !important;
+      z-index: 2147483647 !important; /* Maximum 32-bit z-index */
+      background: rgba(15, 23, 42, 0.78) !important;
+      backdrop-filter: blur(6px) !important;
+      -webkit-backdrop-filter: blur(6px) !important;
+      display: none;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px !important;
+      box-sizing: border-box !important;
+    }
+    #app-floating-dialog-overlay.active {
+      display: flex !important;
+    }
+    #modal-cheat-alert {
+      z-index: 2147483646 !important;
+    }
     .floating-dialog-card {
       background: #ffffff;
       border-radius: 22px;
       padding: 22px 18px;
-      max-width: 350px;
+      max-width: 370px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(2, 132, 199, 0.18);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(2, 132, 199, 0.25);
       animation: dialogPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
       box-sizing: border-box;
+      position: relative;
+      z-index: 2147483647 !important;
+      margin: auto;
     }
     @keyframes dialogPopIn {
       from { opacity: 0; transform: scale(0.9) translateY(12px); }
@@ -1824,11 +1852,11 @@
       border-radius: 12px;
       font-size: 12px;
       font-weight: 700;
-      z-index: 200;
+      z-index: 2147483647 !important;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       text-align: center;
       max-width: 90%;
     }
@@ -3805,6 +3833,15 @@
     function showToast(msg) {
       const t = document.getElementById('app-toast');
       if (!t) return;
+      const examOverlay = document.getElementById('student-exam-overlay');
+      const learningOverlay = document.getElementById('student-learning-overlay');
+      const activeContainer = document.fullscreenElement 
+        || (examOverlay && examOverlay.classList.contains('active') ? examOverlay : null)
+        || (learningOverlay && learningOverlay.classList.contains('active') ? learningOverlay : null)
+        || document.body;
+      if (t.parentElement !== activeContainer) {
+        activeContainer.appendChild(t);
+      }
       t.innerText = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 3000);
@@ -3824,6 +3861,24 @@
       const btnConfirm = document.getElementById('btn-dialog-confirm');
 
       if (!overlay) return Promise.resolve(false);
+
+      // KUNCI UTAMA: Pasang dialog ke dalam container aktif tertinggi (Fullscreen Element / Active Overlay)
+      // agar tidak muncul di belakang saat siswa ujian layar penuh atau sesi pembelajaran
+      const examOverlay = document.getElementById('student-exam-overlay');
+      const learningOverlay = document.getElementById('student-learning-overlay');
+      
+      let targetContainer = document.body;
+      if (document.fullscreenElement) {
+        targetContainer = document.fullscreenElement;
+      } else if (examOverlay && examOverlay.classList.contains('active')) {
+        targetContainer = examOverlay;
+      } else if (learningOverlay && learningOverlay.classList.contains('active')) {
+        targetContainer = learningOverlay;
+      }
+
+      if (overlay.parentElement !== targetContainer) {
+        targetContainer.appendChild(overlay);
+      }
 
       if (iconEl) iconEl.innerText = options.icon || 'ℹ️';
       if (titleEl) titleEl.innerText = options.title || 'Pemberitahuan';
@@ -6141,6 +6196,18 @@
 
     async function markMaterialAsStudied(id, judul) {
       if (!currentUser) return;
+
+      const cleanTitle = (judul || 'materi ini').replace(/["\\]/g, '');
+      const ok = await appConfirm(
+        `Apakah Anda yakin sudah selesai mempelajari materi "${cleanTitle}"? Kehadiran dan status belajar Anda akan resmi dicatat dan dikirimkan ke Guru Pengampu.`,
+        'Konfirmasi Selesai Belajar',
+        'Ya, Selesai Belajar ➔',
+        'Lanjut Belajar',
+        false,
+        '📚'
+      );
+      if (!ok) return;
+
       try {
         const nowISO = new Date().toISOString();
 
@@ -6202,6 +6269,7 @@
         }
 
         showToast('✅ Berhasil dicatat! Anda telah menyelesaikan materi ini.');
+        await appAlert(`Selamat ${currentUser.name}! Anda telah berhasil menyelesaikan materi "${cleanTitle}". Catatan kehadiran belajar Anda telah tersimpan dan terkirim ke Guru.`, 'Selesai Belajar', '🎉');
         closeMaterialDetailModal();
         closeStudentLearningOverlay();
         renderRooms();
@@ -8855,7 +8923,14 @@
         const modalMsg = document.getElementById('cheat-alert-msg');
         if (modalCnt) modalCnt.innerText = vCount;
         if (modalMsg) modalMsg.innerText = `Terdeteksi: ${reason}. Ini adalah pelanggaran ke-${vCount} dari maksimal ${maxV}x. Tetap fokus di halaman ujian!`;
-        if (modalAlert) modalAlert.classList.add('active');
+        if (modalAlert) {
+          const examOverlay = document.getElementById('student-exam-overlay');
+          const targetCont = document.fullscreenElement || examOverlay || document.body;
+          if (modalAlert.parentElement !== targetCont) {
+            targetCont.appendChild(modalAlert);
+          }
+          modalAlert.classList.add('active');
+        }
       }
     }
 
